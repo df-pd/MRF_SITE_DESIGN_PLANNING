@@ -223,9 +223,6 @@
     <p class="sub" data-en="Thank you for considering Da Fon Environmental as your partner to build or upgrade a sorting facility. To tailor the most suitable site layout, equipment selection and operating model for you, please help complete the information below. Items marked <span style=&quot;color:#ffcdd2&quot;>★</span> are required for the initial feasibility assessment; all other fields are optional, and any blanks can be confirmed during our site visit.">感謝您考慮與大豐環保合作建置／升級分選場。為了替您量身規劃最合適的場域配置、設備選型與營運模式，懇請協助填寫以下資料。標示 <span style="color:#ffcdd2">★</span> 者為初步可行性評估之必填項目，其餘可填可不填，留白由我方現勘時再行確認。</p>
     <div class="cover-tags">
       <span data-en="📋 ~10–15 min">📋 約 10–15 分鐘</span>
-      <span data-en="💾 Auto-saved on this device">💾 自動暫存於本機</span>
-      <span data-en="🖨 Printable / Exportable">🖨 可列印 / 匯出</span>
-      <span data-en="📷 Attach site photos">📷 可附現場照片</span>
     </div>
   </div>
 </header>
@@ -240,8 +237,8 @@
 </div>
 
 <main>
-  <div class="intro" data-en="<b>Instructions:</b> This form is for early-stage planning discussion. Rough estimates are fine — precise figures are not required. Based on your responses we will proceed with <b>site layout, equipment selection, operating projections and quotation</b>. If a field is unclear, enter &quot;TBD&quot; or leave it blank. Your entries are automatically saved in your browser; when finished, click <b>&quot;Generate Summary&quot;</b> below to copy and send the content back, or <b>&quot;Print / Save as PDF&quot;</b> and email it to us.">
-    <b>填寫說明：</b>本表用於前期規劃溝通，所填數據為「概估」即可，無需精確。我方將依據您的回覆，於後續進行 <b>場域配置、設備選型、營運試算與報價</b>。如某些欄位不清楚，可填「待確認」或留白。填寫內容會自動暫存在您的瀏覽器；完成後請點選下方 <b>「產生填寫摘要」</b> 複製內容回傳，或 <b>「列印 / 存成 PDF」</b> 寄回給我們。
+  <div class="intro" data-en="<b>Instructions:</b> This form is for early-stage planning discussion. Rough estimates are fine — precise figures are not required. Based on your responses we will proceed with <b>site layout, equipment selection, operating projections and quotation</b>. If a field is unclear, enter &quot;TBD&quot; or leave it blank. When finished, click <b>&quot;Submit&quot;</b> below.">
+    <b>填寫說明：</b>本表用於前期規劃溝通，所填數據為「概估」即可，無需精確。我方將依據您的回覆，於後續進行 <b>場域配置、設備選型、營運試算與報價</b>。如某些欄位不清楚，可填「待確認」或留白。完成後請點選下方 <b>「送出」</b>。
   </div>
 
   <!-- ① 基本資訊 -->
@@ -308,26 +305,22 @@
           <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="Email"><span data-en="Email">Email</span></label>
           <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="微信"><span data-en="WeChat">微信 WeChat</span></label>
           <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="LINE"><span data-en="LINE">LINE</span></label>
-          <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="Telegram"><span data-en="Telegram">Telegram</span></label>
-          <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="Skype"><span data-en="Skype">Skype</span></label>
-          <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="Viber"><span data-en="Viber">Viber</span></label>
-          <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="KakaoTalk"><span data-en="KakaoTalk">KakaoTalk</span></label>
           <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="Messenger"><span data-en="Messenger">Messenger</span></label>
-          <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="Signal"><span data-en="Signal">Signal</span></label>
           <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="電話"><span data-en="Phone call">電話通話</span></label>
           <label class="opt"><input type="checkbox" name="偏好通訊軟體" value="其他"><span data-en="Other">其他</span></label>
         </div>
       </div>
+      <!-- 依勾選的通訊軟體，逐項顯示對應帳號填寫欄（由 renderContactAccounts() 動態產生） -->
+      <div id="contactAccounts" style="margin-top:14px"></div>
       <div class="grid" style="margin-top:16px">
-        <div class="field"><label><span data-en="Messaging Account / ID">通訊帳號 / ID</span> <span class="hint" data-en="(WhatsApp / WeChat / LINE / Skype ID or phone)">(WhatsApp / 微信 / LINE / Skype ID 或電話)</span></label><input type="text" name="通訊帳號" placeholder="例：WeChat ID、+886...、LINE ID" data-en-ph="e.g., WeChat ID, +886..., LINE ID"></div>
-        <div class="field"><label><span data-en="Preferred Video Meeting">視訊會議偏好</span></label>
+        <div class="field"><label><span data-en="Preferred Video Meeting">視訊會議偏好</span> <span class="hint" data-en="(multiple)">(可複選)</span></label>
           <div class="opts" data-name="視訊會議">
             <label class="opt"><input type="checkbox" name="視訊會議" value="Zoom"><span data-en="Zoom">Zoom</span></label>
             <label class="opt"><input type="checkbox" name="視訊會議" value="Google Meet"><span data-en="Google Meet">Google Meet</span></label>
             <label class="opt"><input type="checkbox" name="視訊會議" value="Microsoft Teams"><span data-en="Microsoft Teams">Teams</span></label>
-            <label class="opt"><input type="checkbox" name="視訊會議" value="騰訊會議"><span data-en="Tencent Meeting">騰訊會議</span></label>
             <label class="opt"><input type="checkbox" name="視訊會議" value="其他"><span data-en="Other">其他</span></label>
           </div>
+          <input type="text" name="視訊會議_其他" id="videoOther" placeholder="請填寫希望的視訊方式" data-en-ph="Please specify your preferred video tool" style="display:none;margin-top:8px;width:100%">
         </div>
       </div>
       <div class="divider"></div>
@@ -367,14 +360,18 @@
             <label class="opt"><input type="radio" name="土地取得" value="自有"><span data-en="Owned">自有</span></label>
             <label class="opt"><input type="radio" name="土地取得" value="租賃"><span data-en="Leased">租賃</span></label>
             <label class="opt"><input type="radio" name="土地取得" value="尚未取得"><span data-en="Not yet acquired">尚未取得</span></label>
+            <label class="opt"><input type="radio" name="土地取得" value="其他"><span data-en="Other">其他</span></label>
           </div>
+          <input type="text" name="土地取得_其他" id="landOther" placeholder="請說明取得方式" data-en-ph="Please specify" style="display:none;margin-top:8px;width:100%">
         </div>
         <div class="field"><label><span data-en="Floor Condition">地面狀況</span></label>
           <div class="opts" data-single data-name="地面狀況">
             <label class="opt"><input type="radio" name="地面狀況" value="混凝土"><span data-en="Concrete">混凝土</span></label>
             <label class="opt"><input type="radio" name="地面狀況" value="水泥"><span data-en="Cement">水泥</span></label>
             <label class="opt"><input type="radio" name="地面狀況" value="泥土/碎石"><span data-en="Soil / Gravel">泥土/碎石</span></label>
+            <label class="opt"><input type="radio" name="地面狀況" value="其他"><span data-en="Other">其他</span></label>
           </div>
+          <input type="text" name="地面狀況_其他" id="floorOther" placeholder="請說明地面狀況" data-en-ph="Please specify" style="display:none;margin-top:8px;width:100%">
         </div>
       </div>
       <div class="field full" style="margin-top:16px"><label><span data-en="Environmental / Operating Permit Status">環保 / 營運許可現況</span> <span class="hint" data-en="(recycling storage / clearance / treatment permit)">(資源回收貯存清除處理許可)</span></label>
@@ -383,7 +380,9 @@
           <label class="opt"><input type="radio" name="許可現況" value="申請中"><span data-en="Applying">申請中</span></label>
           <label class="opt"><input type="radio" name="許可現況" value="尚未申請"><span data-en="Not yet applied">尚未申請</span></label>
           <label class="opt"><input type="radio" name="許可現況" value="不清楚"><span data-en="Unsure">不清楚</span></label>
+          <label class="opt"><input type="radio" name="許可現況" value="其他"><span data-en="Other">其他</span></label>
         </div>
+        <input type="text" name="許可現況_其他" id="permitOther" placeholder="請說明許可現況" data-en-ph="Please specify" style="display:none;margin-top:8px;width:100%">
       </div>
     </div>
   </section>
@@ -427,11 +426,11 @@
       <div class="uploader" onclick="document.getElementById('photoInput').click()">
         <div class="ico">📷</div>
         <p data-en="Click to select photos, or drag &amp; drop here">點此選擇照片，或拖曳至此</p>
-        <small data-en="Multiple JPG / PNG supported. Photos are compressed and submitted together when you click &quot;Submit&quot;.">支援多張 JPG / PNG。按「送出給大豐」時，照片會自動壓縮並一併送出。</small>
+        <small data-en="Multiple JPG / PNG supported. Photos are compressed and submitted together when you click &quot;Submit&quot;.">支援多張 JPG / PNG。按「送出」時，照片會自動壓縮並一併送出。</small>
       </div>
       <input type="file" id="photoInput" accept="image/*" multiple style="display:none">
       <div class="thumbs" id="thumbs"></div>
-      <div class="note-box" data-en="Note: when you click &quot;Submit to Da Fon&quot; the photos are compressed and uploaded together with the form.">提醒：按「送出給大豐」時，照片會自動壓縮後隨表單一併上傳。</div>
+      <div class="note-box" data-en="Note: when you click &quot;Submit&quot; the photos are compressed and uploaded together with the form.">提醒：按「送出」時，照片會自動壓縮後隨表單一併上傳。</div>
     </div>
   </section>
 
@@ -459,23 +458,9 @@
       </div>
 
       <div class="divider" id="sortBlockDivider"></div>
-      <div class="subhead" id="sortBlockHead" data-en="Color / Material Sorting Needs">顏色 / 材質分選需求</div>
-      <div class="grid" id="sortBlockGrid">
-        <div class="field" id="fieldGlass"><label><span data-en="Sort glass by color?">玻璃是否需依顏色分選？</span></label>
-          <div class="opts" data-single data-name="玻璃分色">
-            <label class="opt"><input type="radio" name="玻璃分色" value="需要(透明/綠/棕)"><span data-en="Yes (clear / green / amber)">需要（透明 / 綠 / 棕）</span></label>
-            <label class="opt"><input type="radio" name="玻璃分色" value="不需要"><span data-en="No">不需要</span></label>
-            <label class="opt"><input type="radio" name="玻璃分色" value="無玻璃"><span data-en="No glass">無玻璃</span></label>
-          </div>
-        </div>
-        <div class="field" id="fieldPlastic"><label><span data-en="Sort plastics by color?">塑膠是否需依顏色分選？</span></label>
-          <div class="opts" data-single data-name="塑膠分色">
-            <label class="opt"><input type="radio" name="塑膠分色" value="需要(透明/彩色)"><span data-en="Yes (clear / colored)">需要（透明 / 彩色）</span></label>
-            <label class="opt"><input type="radio" name="塑膠分色" value="僅依材質"><span data-en="By material only">僅依材質</span></label>
-            <label class="opt"><input type="radio" name="塑膠分色" value="不需要"><span data-en="No">不需要</span></label>
-          </div>
-        </div>
-      </div>
+      <div class="subhead" id="sortBlockHead" data-en="Sorting / Purity Requirements per Product">各產品分選 / 純度需求</div>
+      <p id="sortBlockHint" style="font-size:12.5px;color:var(--muted);margin-bottom:12px" data-en="The questions below are generated from the products you selected above — please specify the requirement for each.">以下問題依您上方勾選的產品自動產生，請逐項說明分選需求。</p>
+      <div class="grid" id="sortBlockGrid"></div>
       <div class="field full" style="margin-top:16px"><label><span data-en="Product Purity / Spec Requirements">產品純度 / 規格要求</span> <span class="hint" data-en="(downstream buyer purity requirements)">(下游買方對純度的要求)</span></label>
         <div class="opts" data-single data-name="純度要求">
           <label class="opt"><input type="radio" name="純度要求" value="一般(混級可)"><span data-en="General (mixed grade sellable)">一般（混級可售）</span></label>
@@ -555,8 +540,8 @@
 <!-- ===== 底部動作列 ===== -->
 <div class="actionbar">
   <div class="actionbar-inner">
-    <span class="save-state" id="saveState" data-en="No changes yet">尚未變更</span>
-    <button class="btn btn-primary" id="submitBtn" onclick="submitForm()" data-en="✅ Submit to Da Fon">✅ 送出給大豐</button>
+    <span style="flex:1"></span>
+    <button class="btn btn-primary" id="submitBtn" onclick="submitForm()" data-en="Submit">送出</button>
   </div>
 </div>
 
@@ -656,21 +641,107 @@ document.addEventListener('change', e=>{
   if(e.target.closest('.opt')) refreshChips();
   if(e.target.name==='產出產品') updateSortingVisibility();
   if(e.target.name==='進線電壓') updateVoltageOther();
+  if(e.target.name==='偏好通訊軟體') renderContactAccounts();
+  if(e.target.name==='視訊會議') updateVideoOther();
+  if(e.target.name==='土地取得'||e.target.name==='地面狀況'||e.target.name==='許可現況') updateRadioOthers();
 });
 
-/* 依「希望產出的產品」動態顯示對應的分選需求問題（沒選玻璃就不問玻璃分色，餘類推） */
+/* ====== 各產品分選需求設定（中文 / 英文 / 問題 / 選項） ======
+   依勾選的「希望產出的主要產品」，逐項自動產生對應的分選需求問題。 */
+const PRODUCT_SORT = {
+  'PET瓶':  ['PET 瓶','PET Bottles','顏色分選需求','Color sorting',[['依顏色（透明/彩色）','By color (clear/colored)'],['僅依材質','By material only'],['不需特別分選','No special sorting']]],
+  'HDPE':   ['HDPE','HDPE','顏色分選需求','Color sorting',[['依顏色','By color'],['僅依材質','By material only'],['不需特別分選','No special sorting']]],
+  'PP':     ['PP','PP','顏色分選需求','Color sorting',[['依顏色','By color'],['僅依材質','By material only'],['不需特別分選','No special sorting']]],
+  '雜塑膠': ['雜塑膠','Mixed Plastics','分選需求','Sorting',[['需依材質再分選','Further sort by material'],['不需特別分選','No special sorting']]],
+  '廢紙/紙箱':['廢紙 / 紙箱','Paper / Cardboard','分選等級','Grade',[['需分級（紙箱 / 混紙等）','Graded (OCC / mixed...)'],['一般','General'],['不需特別分選','No special sorting']]],
+  '鐵':     ['鐵','Iron','分選需求','Sorting',[['需磁選 / 去除雜質','Magnetic / remove impurities'],['一般','General'],['不需特別分選','No special sorting']]],
+  '鋁':     ['鋁','Aluminum','分選需求','Sorting',[['需分罐 / 型材 / 雜鋁','Cans / profiles / mixed'],['一般','General'],['不需特別分選','No special sorting']]],
+  '不鏽鋼': ['不鏽鋼','Stainless Steel','分選需求','Sorting',[['需分等級（304 / 430）','By grade (304 / 430)'],['一般','General'],['不需特別分選','No special sorting']]],
+  '銅':     ['銅','Copper','分選需求','Sorting',[['需分號（光銅 / 雜銅）','By grade (bright / mixed)'],['一般','General'],['不需特別分選','No special sorting']]],
+  '玻璃':   ['玻璃','Glass','顏色分選需求','Color sorting',[['需依顏色（透明/綠/棕）','By color (clear/green/amber)'],['不需要','No']]],
+};
+
+/* 依「希望產出的產品」動態產生：每個勾選的產品各一題分選需求 */
 function updateSortingVisibility(){
-  const v = n => !!document.querySelector(`input[name="產出產品"][value="${n}"]:checked`);
-  const glass = v('玻璃');
-  const plastic = v('PET瓶')||v('HDPE')||v('PP')||v('雜塑膠');
+  const checked=[...document.querySelectorAll('input[name="產出產品"]:checked')].map(i=>i.value);
+  const grid=document.getElementById('sortBlockGrid');
+  if(!grid) return;
+  // 先記住已選取的分選需求與文字，重建後還原
+  const prevRadio={}; grid.querySelectorAll('input[type=radio]:checked').forEach(r=>prevRadio[r.name]=r.value);
+  const prevText={}; grid.querySelectorAll('input[type=text]').forEach(t=>prevText[t.name]=t.value);
+  grid.innerHTML='';
+  let any=false;
+  checked.forEach(v=>{
+    if(v==='其他') return;                 // 「其他」以獨立說明欄處理
+    const cfg=PRODUCT_SORT[v]; if(!cfg) return;
+    any=true;
+    const [label,en,q,qen,opts]=cfg;
+    const nm='分選需求_'+v;
+    const chips=opts.map(([zh,oen])=>`<label class="opt"><input type="radio" name="${nm}" value="${zh}"><span data-en="${oen}">${zh}</span></label>`).join('');
+    const field=document.createElement('div'); field.className='field';
+    field.innerHTML=`<label><span data-en="&quot;${en}&quot; — ${qen}">「${label}」${q}</span></label><div class="opts" data-single data-name="${nm}">${chips}</div>`;
+    grid.appendChild(field);
+  });
+  if(checked.includes('其他')){
+    any=true;
+    const field=document.createElement('div'); field.className='field full';
+    field.innerHTML=`<label><span data-en="Sorting requirement for the other product(s)">「其他產品」分選需求</span></label><input type="text" name="分選需求_其他產品" placeholder="請說明其他產品的分選需求" data-en-ph="Describe the sorting requirement">`;
+    grid.appendChild(field);
+  }
+  // 還原先前選取
+  Object.entries(prevRadio).forEach(([n,val])=>{ const el=grid.querySelector(`input[name="${CSS.escape(n)}"][value="${CSS.escape(val)}"]`); if(el) el.checked=true; });
+  Object.entries(prevText).forEach(([n,val])=>{ const el=grid.querySelector(`input[name="${CSS.escape(n)}"]`); if(el&&val) el.value=val; });
   const set=(id,show)=>{ const el=document.getElementById(id); if(el) el.style.display=show?'':'none'; };
-  set('fieldGlass',glass);
-  set('fieldPlastic',plastic);
-  set('sortBlockHead',glass||plastic);
-  set('sortBlockGrid',glass||plastic);
-  set('sortBlockDivider',glass||plastic);
-  set('otherProductInput',v('其他'));
+  set('sortBlockHead',any); set('sortBlockGrid',any); set('sortBlockDivider',any); set('sortBlockHint',any);
+  set('otherProductInput', checked.includes('其他'));
+  bindStore(grid); refreshChips(); applyLang(LANG);
 }
+
+/* ====== 偏好聯絡方式：依勾選的通訊軟體，逐項顯示帳號填寫欄 ====== */
+const CONTACT_ACCT = {
+  'WhatsApp':['WhatsApp 號碼','WhatsApp number'],
+  'Email':['Email 信箱','Email address'],
+  '微信':['微信 ID','WeChat ID'],
+  'LINE':['LINE ID','LINE ID'],
+  'Messenger':['Messenger 帳號','Messenger account'],
+  '電話':['電話號碼（含國碼）','Phone (with country code)'],
+  '其他':['其他（請說明軟體與帳號）','Other (app & account)'],
+};
+function renderContactAccounts(){
+  const box=document.getElementById('contactAccounts'); if(!box) return;
+  const checked=[...document.querySelectorAll('input[name="偏好通訊軟體"]:checked')].map(i=>i.value);
+  const prev={}; box.querySelectorAll('input').forEach(i=>prev[i.name]=i.value);
+  box.innerHTML='';
+  if(!checked.length) return;
+  const grid=document.createElement('div'); grid.className='grid';
+  checked.forEach(v=>{
+    const cfg=CONTACT_ACCT[v]||[v,v];
+    const nm='通訊帳號_'+v;
+    const f=document.createElement('div'); f.className='field';
+    f.innerHTML=`<label><span data-en="${cfg[1]}">${cfg[0]}</span></label><input type="text" name="${nm}" placeholder="${cfg[0]}" data-en-ph="${cfg[1]}">`;
+    grid.appendChild(f);
+  });
+  box.appendChild(grid);
+  Object.entries(prev).forEach(([n,val])=>{ const el=box.querySelector(`input[name="${CSS.escape(n)}"]`); if(el&&val) el.value=val; });
+  bindStore(box); applyLang(LANG);
+}
+
+/* 視訊會議選「其他」時顯示自行填寫欄 */
+function updateVideoOther(){
+  const other=document.querySelector('input[name="視訊會議"][value="其他"]');
+  const inp=document.getElementById('videoOther');
+  if(inp) inp.style.display=(other&&other.checked)?'':'none';
+}
+
+/* 土地取得 / 地面狀況 / 許可現況 選「其他」時顯示自行填寫欄 */
+function updateRadioOthers(){
+  [['土地取得','landOther'],['地面狀況','floorOther'],['許可現況','permitOther']].forEach(([nm,id])=>{
+    const sel=document.querySelector(`input[name="${nm}"]:checked`);
+    const el=document.getElementById(id);
+    if(el) el.style.display=(sel&&sel.value==='其他')?'':'none';
+  });
+}
+
 /* 進線電壓選「其他」時顯示自行填寫欄 */
 function updateVoltageOther(){
   const sel=document.getElementById('voltageSelect'), oth=document.getElementById('voltageOther');
@@ -786,7 +857,8 @@ function refreshSaveLabel(){
 }
 function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(collect())); }catch(e){
-    document.getElementById('saveState').textContent=(LANG==='en'?'⚠ Too many photos to auto-save (submission unaffected)':'⚠ 照片過多無法暫存（不影響送出）');
+    const ss=document.getElementById('saveState');
+    if(ss) ss.textContent=(LANG==='en'?'⚠ Too many photos to auto-save (submission unaffected)':'⚠ 照片過多無法暫存（不影響送出）');
     return;
   }
   const t=new Date();
@@ -802,7 +874,18 @@ function load(){
   const ciKeys=Object.keys(saved.data||{}).filter(k=>k.startsWith('自訂品項'));
   const maxCi=ciKeys.length?ciKeys.reduce((m,k)=>Math.max(m,parseInt(k.match(/自訂品項(\d+)/)[1])),-1):-1;
   for(let i=0;i<=maxCi;i++) addCustomItem();
-  Object.entries(saved.data||{}).forEach(([k,v])=>{
+  // 第一遍：套用所有靜態欄位（會勾選產出產品 / 通訊軟體等核取方塊）
+  applySaved(saved.data);
+  // 依勾選狀態產生動態欄位（各產品分選需求、各通訊軟體帳號、其他自填欄）
+  updateSortingVisibility(); renderContactAccounts(); updateVideoOther(); updateRadioOthers();
+  // 第二遍：套用動態欄位的值（此時欄位已存在）
+  applySaved(saved.data);
+  photos=saved.photos||[];
+  renderThumbs(); refreshChips(); sumRatio(); updateProgress(); updateSectionStates();
+}
+/* 將儲存的資料套回對應欄位（可重複呼叫，供動態欄位產生後二次套用） */
+function applySaved(d){
+  Object.entries(d||{}).forEach(([k,v])=>{
     const els=document.querySelectorAll(`[name="${CSS.escape(k)}"]`);
     els.forEach(el=>{
       if(el.type==='checkbox'){ if(Array.isArray(v)&&(v.includes(el.value)||v.includes(true)))el.checked=true; }
@@ -810,8 +893,6 @@ function load(){
       else el.value=v;
     });
   });
-  photos=saved.photos||[];
-  renderThumbs(); refreshChips(); sumRatio(); updateProgress(); updateSectionStates();
 }
 function bindStore(scope=document){
   scope.querySelectorAll('input,select,textarea').forEach(el=>{
@@ -849,7 +930,8 @@ const FIELD_EN={
   '危險品程度':'Hazard Level','未破袋':'Unopened Bags','大型雜物':'Large Debris','含水雜質':'Moisture/Impurity','驗貨現況':'Inspection Status',
   '契約容量':'Supply Capacity','用電相數':'Power Phase','進線電壓':'Voltage','供水':'Water Supply','廢水':'Wastewater','粉塵異味':'Dust/Odor',
   '設備需求':'Equipment Needs','現有設備':'Existing Equipment','自動化期待':'Automation Level','購租偏好':'Buy/Lease',
-  '班次':'Shifts','現有人力':'Workforce','週運作天數':'Days/Week','教育訓練':'Training','投資預算幣別':'Budget Currency','投資預算':'Budget','回收年限':'Payback','其他補充':'Other Notes','產出產品_其他':'Other Product','進線電壓其他':'Voltage (other)'
+  '班次':'Shifts','現有人力':'Workforce','週運作天數':'Days/Week','教育訓練':'Training','投資預算幣別':'Budget Currency','投資預算':'Budget','回收年限':'Payback','其他補充':'Other Notes','產出產品_其他':'Other Product','進線電壓其他':'Voltage (other)',
+  '視訊會議_其他':'Video (other)','土地取得_其他':'Ownership (other)','地面狀況_其他':'Floor (other)','許可現況_其他':'Permit (other)'
 };
 const UNIT_EN={'坪':'ping','公尺':'m','噸/日':'ton/day','天/月':'days/month','層':'floors','天/週':'days/week','人':'persons','噸/㎡':'ton/㎡'};
 const VAL_EN={'高':'High','中':'Medium','低':'Low'};
@@ -880,8 +962,8 @@ function buildSummary(){
   L.push('═══════════════════════════════════');
   const order=[
     ['【基本資訊】',['公司名稱','公司英文名稱','國家地區','統一編號','公司網站','聯絡人','職稱','聯絡電話','Email','時區','溝通語言','報價幣別','場址地址','預計啟用時間','合作型態','合作目的']],
-    ['【偏好聯絡方式】',['偏好通訊軟體','通訊帳號','視訊會議']],
-    ['【場地與建物】',['土地面積:坪','建物面積:坪','建蔽率:%','樓層數:層','室內淨高:公尺','柱距:公尺','出入口寬度:公尺','出入口高度:公尺','地坪承載:噸/㎡','土地取得','地面狀況','許可現況']],
+    ['【偏好聯絡方式】',['偏好通訊軟體','視訊會議','視訊會議_其他']],
+    ['【場地與建物】',['土地面積:坪','建物面積:坪','建蔽率:%','樓層數:層','室內淨高:公尺','柱距:公尺','出入口寬度:公尺','出入口高度:公尺','地坪承載:噸/㎡','土地取得','土地取得_其他','地面狀況','地面狀況_其他','許可現況','許可現況_其他']],
     ['【進料量體】',['日均進料量:噸/日','尖峰進料量:噸/日','工作天數:天/月']],
     ['【產品與分選】',['產出產品','產出產品_其他','玻璃分色','塑膠分色','純度要求','下游買方']],
     ['【水電基礎設施】',['契約容量:kW','用電相數','進線電壓','進線電壓其他','粉塵異味']],
@@ -902,6 +984,25 @@ function buildSummary(){
         L.push(`  ・${label}${colon}${v}${u?' '+u:''}`);
       }
     });
+    // 偏好聯絡方式：各通訊軟體帳號（動態欄位）
+    if(title==='【偏好聯絡方式】'){
+      Object.keys(data).forEach(k=>{
+        if(k.startsWith('通訊帳號_')&&data[k]){
+          const app=k.replace('通訊帳號_','');
+          L.push(`  ・${(en?'Account':'帳號')}-${app}${colon}${data[k]}`);
+        }
+      });
+    }
+    // 產品與分選：各產品分選需求（動態欄位）
+    if(title==='【產品與分選】'){
+      Object.keys(data).forEach(k=>{
+        if(k.startsWith('分選需求_')&&data[k]){
+          const p=k.replace('分選需求_','');
+          let val=data[k]; if(en) val=trVal(val);
+          L.push(`  ・${(en?'Sorting':'分選')}-${p}${colon}${val}`);
+        }
+      });
+    }
   });
   // 進料來源
   const srcs=[];
@@ -1029,6 +1130,7 @@ async function submitForm(){
         : '✅ 已成功送出！大豐環保將盡快與您聯繫。');
       btn.innerHTML=(LANG==='en'?'✅ Submitted':'✅ 已送出');   // 保持禁用，防重送
       localStorage.setItem('dafong_submitted_v1', new Date().toISOString());
+      localStorage.removeItem(KEY);   // 送出成功後清除草稿，避免資料殘留 / 換人填看到舊資料
     } else {
       throw new Error((out && out.error) || 'unknown');
     }
@@ -1046,6 +1148,7 @@ if(srcIdx===0) addSource();
 bindStore();
 refreshChips(); updateProgress(); updateSectionStates();
 updateSortingVisibility(); updateVoltageOther();
+renderContactAccounts(); updateVideoOther(); updateRadioOthers();
 applyLang(LANG);  // 套用記憶的語言
 /* 未設定後端端點時，隱藏「送出給大豐」按鈕，避免客戶看到無效按鈕 */
 if(!GAS_ENDPOINT){ const sb=document.getElementById('submitBtn'); if(sb) sb.style.display='none'; }
