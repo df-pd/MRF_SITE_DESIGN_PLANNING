@@ -454,22 +454,16 @@
           <label class="opt"><input type="checkbox" name="產出產品" value="玻璃"><span data-en="Glass">玻璃</span></label>
           <label class="opt"><input type="checkbox" name="產出產品" value="其他"><span data-en="Other">其他</span></label>
         </div>
-        <input type="text" name="產出產品_其他" id="otherProductInput" placeholder="請說明其他希望產出的產品" data-en-ph="Please specify the other product(s)" style="display:none;margin-top:10px;width:100%">
       </div>
 
       <div class="divider" id="sortBlockDivider"></div>
-      <div class="subhead" id="sortBlockHead" data-en="Sorting / Purity Requirements per Product">各產品分選 / 純度需求</div>
-      <p id="sortBlockHint" style="font-size:12.5px;color:var(--muted);margin-bottom:12px" data-en="The questions below are generated from the products you selected above — please specify the requirement for each.">以下問題依您上方勾選的產品自動產生，請逐項說明分選需求。</p>
+      <div class="subhead" id="sortBlockHead" data-en="Sorting / Spec Requirements per Product">各產品分選 / 規格需求</div>
+      <p id="sortBlockHint" style="font-size:12.5px;color:var(--muted);margin-bottom:12px" data-en="The questions below are generated from the products you selected above. For each product choose a sorting level; for High / Medium please describe your actual requirement, and you may add the downstream buyer.">以下問題依您上方勾選的產品自動產生：請為每個產品選擇分選等級，選「高 / 中」時請填寫實際需求，並可填寫該材質的下游買方。</p>
       <div class="grid" id="sortBlockGrid"></div>
-      <div class="field full" style="margin-top:16px"><label><span data-en="Product Purity / Spec Requirements">產品純度 / 規格要求</span> <span class="hint" data-en="(downstream buyer purity requirements)">(下游買方對純度的要求)</span></label>
-        <div class="opts" data-single data-name="純度要求">
-          <label class="opt"><input type="radio" name="純度要求" value="一般(混級可)"><span data-en="General (mixed grade sellable)">一般（混級可售）</span></label>
-          <label class="opt"><input type="radio" name="純度要求" value="中(需基本分類)"><span data-en="Medium (basic sorting)">中（需基本分類）</span></label>
-          <label class="opt"><input type="radio" name="純度要求" value="高(出口/再生料級)"><span data-en="High (export / recycled-resin grade)">高（出口 / 再生料級）</span></label>
-        </div>
-      </div>
-      <div class="field full" style="margin-top:16px"><label><span data-en="Main Downstream Buyers / Sales Channels">主要下游買方 / 銷售去向</span> <span class="hint" data-en="(optional)">(選填)</span></label>
-        <input type="text" name="下游買方" placeholder="例：再生塑膠粒廠、紙廠、煉鋁廠、貿易出口商…" data-en-ph="e.g., recycled-pellet plants, paper mills, aluminum smelters, export traders...">
+      <div id="customProductWrap" style="display:none;margin-top:4px">
+        <div class="subhead" data-en="Other Products — Sorting Requirements">其他產品分選需求</div>
+        <div id="customProductRows"></div>
+        <button type="button" class="add-btn" onclick="addCustomProduct()" data-en="+ Add another product">＋ 新增其他產品</button>
       </div>
     </div>
   </section>
@@ -644,57 +638,109 @@ document.addEventListener('change', e=>{
   if(e.target.name==='偏好通訊軟體') renderContactAccounts();
   if(e.target.name==='視訊會議') updateVideoOther();
   if(e.target.name==='土地取得'||e.target.name==='地面狀況'||e.target.name==='許可現況') updateRadioOthers();
+  if(e.target.type==='radio' && (e.target.name.startsWith('分選需求_') || /^其他產品\d+_分選需求$/.test(e.target.name))) updateSortDetails();
 });
 
-/* ====== 各產品分選需求設定（中文 / 英文 / 問題 / 選項） ======
-   依勾選的「希望產出的主要產品」，逐項自動產生對應的分選需求問題。 */
+/* ====== 各產品分選需求設定 ======
+   每項：[中文名, 英文名, 「高」舉例(中), 「高」舉例(英), 「中」舉例(中), 「中」舉例(英)]
+   分選等級三段固定為：高（需多種分類）/ 中（需基本分類）/ 一般（混合可售）；舉例依材質帶入。 */
 const PRODUCT_SORT = {
-  'PET瓶':  ['PET 瓶','PET Bottles','顏色分選需求','Color sorting',[['依顏色（透明/彩色）','By color (clear/colored)'],['僅依材質','By material only'],['不需特別分選','No special sorting']]],
-  'HDPE':   ['HDPE','HDPE','顏色分選需求','Color sorting',[['依顏色','By color'],['僅依材質','By material only'],['不需特別分選','No special sorting']]],
-  'PP':     ['PP','PP','顏色分選需求','Color sorting',[['依顏色','By color'],['僅依材質','By material only'],['不需特別分選','No special sorting']]],
-  '雜塑膠': ['雜塑膠','Mixed Plastics','分選需求','Sorting',[['需依材質再分選','Further sort by material'],['不需特別分選','No special sorting']]],
-  '廢紙/紙箱':['廢紙 / 紙箱','Paper / Cardboard','分選等級','Grade',[['需分級（紙箱 / 混紙等）','Graded (OCC / mixed...)'],['一般','General'],['不需特別分選','No special sorting']]],
-  '鐵':     ['鐵','Iron','分選需求','Sorting',[['需磁選 / 去除雜質','Magnetic / remove impurities'],['一般','General'],['不需特別分選','No special sorting']]],
-  '鋁':     ['鋁','Aluminum','分選需求','Sorting',[['需分罐 / 型材 / 雜鋁','Cans / profiles / mixed'],['一般','General'],['不需特別分選','No special sorting']]],
-  '不鏽鋼': ['不鏽鋼','Stainless Steel','分選需求','Sorting',[['需分等級（304 / 430）','By grade (304 / 430)'],['一般','General'],['不需特別分選','No special sorting']]],
-  '銅':     ['銅','Copper','分選需求','Sorting',[['需分號（光銅 / 雜銅）','By grade (bright / mixed)'],['一般','General'],['不需特別分選','No special sorting']]],
-  '玻璃':   ['玻璃','Glass','顏色分選需求','Color sorting',[['需依顏色（透明/綠/棕）','By color (clear/green/amber)'],['不需要','No']]],
+  'PET瓶':   ['PET 瓶','PET Bottles','需分色分材質','sort by color & material','分色或分材質','by color or material'],
+  'HDPE':    ['HDPE','HDPE','需分色分材質','sort by color & material','分色或分材質','by color or material'],
+  'PP':      ['PP','PP','需分色分材質','sort by color & material','分色或分材質','by color or material'],
+  '雜塑膠':  ['雜塑膠','Mixed Plastics','需分色分材質','sort by color & material','分色或分材質','by color or material'],
+  '廢紙/紙箱':['廢紙 / 紙箱','Paper / Cardboard','紙類、紙容器、紙箱','paper / containers / cardboard','紙類、紙容器','paper / containers'],
+  '鐵':      ['鐵','Iron','鐵罐、工字鐵、二級鐵','cans / H-beam / grade-2','鐵罐、廢鐵','cans / scrap iron'],
+  '鋁':      ['鋁','Aluminum','鋁罐、軟鋁、硬鋁','cans / soft / hard','鋁罐、鋁','cans / aluminum'],
+  '不鏽鋼':  ['不鏽鋼','Stainless Steel','304、316、430 分級','304 / 316 / 430','不鏽鋼、雜料','SUS / mixed'],
+  '銅':      ['銅','Copper','光銅、紫銅、黃銅','bright / red / brass','銅、雜銅','copper / mixed'],
+  '玻璃':    ['玻璃','Glass','透明、綠、棕分色','clear / green / amber','分色或不分色','by color or not'],
 };
 
-/* 依「希望產出的產品」動態產生：每個勾選的產品各一題分選需求 */
+/* 產生分選等級三選項（高 / 中 / 一般）；舉例由各產品帶入（內嵌樣式用單引號，避免與 data-en 雙引號衝突） */
+function buildLevelChips(nm, hiZh, hiEn, midZh, midEn){
+  const lv=[
+    ['高（需多種分類）','High (multi-category)', hiZh, hiEn],
+    ['中（需基本分類）','Medium (basic sorting)', midZh, midEn],
+    ['一般（混合可售）','General (mixed, sellable)', '', ''],
+  ];
+  return lv.map(([zh,en,egZh,egEn])=>{
+    const egZhHtml = egZh? `<small style='display:block;font-weight:400;font-size:11px;opacity:.8'>例：${egZh}</small>`:'';
+    const egEnHtml = egEn? `<small style='display:block;font-weight:400;font-size:11px;opacity:.8'>e.g. ${egEn}</small>`:'';
+    return `<label class="opt"><input type="radio" name="${nm}" value="${zh}"><span data-en="${en}${egEnHtml}">${zh}${egZhHtml}</span></label>`;
+  }).join('');
+}
+
+/* 依「希望產出的產品」動態產生：每個勾選的產品各一題（分選等級 + 實際需求 + 下游買方） */
 function updateSortingVisibility(){
   const checked=[...document.querySelectorAll('input[name="產出產品"]:checked')].map(i=>i.value);
   const grid=document.getElementById('sortBlockGrid');
   if(!grid) return;
-  // 先記住已選取的分選需求與文字，重建後還原
+  // 先記住已選取的分選等級與文字，重建後還原
   const prevRadio={}; grid.querySelectorAll('input[type=radio]:checked').forEach(r=>prevRadio[r.name]=r.value);
-  const prevText={}; grid.querySelectorAll('input[type=text]').forEach(t=>prevText[t.name]=t.value);
+  const prevText={}; grid.querySelectorAll('input[type=text]').forEach(t=>{ if(t.value) prevText[t.name]=t.value; });
   grid.innerHTML='';
-  let any=false;
+  let hasStd=false;
   checked.forEach(v=>{
-    if(v==='其他') return;                 // 「其他」以獨立說明欄處理
+    if(v==='其他') return;                 // 「其他」交由可新增的自訂產品區處理
     const cfg=PRODUCT_SORT[v]; if(!cfg) return;
-    any=true;
-    const [label,en,q,qen,opts]=cfg;
+    hasStd=true;
+    const [label,en,hiZh,hiEn,midZh,midEn]=cfg;
     const nm='分選需求_'+v;
-    const chips=opts.map(([zh,oen])=>`<label class="opt"><input type="radio" name="${nm}" value="${zh}"><span data-en="${oen}">${zh}</span></label>`).join('');
-    const field=document.createElement('div'); field.className='field';
-    field.innerHTML=`<label><span data-en="&quot;${en}&quot; — ${qen}">「${label}」${q}</span></label><div class="opts" data-single data-name="${nm}">${chips}</div>`;
+    const chips=buildLevelChips(nm,hiZh,hiEn,midZh,midEn);
+    const field=document.createElement('div'); field.className='field full';
+    field.innerHTML=
+      `<label><span data-en="&quot;${en}&quot; — sorting requirement">「${label}」分選需求</span></label>`+
+      `<div class="opts" data-single data-name="${nm}">${chips}</div>`+
+      `<input type="text" name="分選需求_${v}_實際需求" placeholder="請填寫實際分選需求（例：${hiZh}）" data-en-ph="Describe your actual requirement" style="display:none;margin-top:8px;width:100%">`+
+      `<input type="text" name="下游買方_${v}" placeholder="此材質的主要下游買方 / 銷售去向（選填）" data-en-ph="Downstream buyer / sales channel for this material (optional)" style="margin-top:8px;width:100%">`;
     grid.appendChild(field);
   });
-  if(checked.includes('其他')){
-    any=true;
-    const field=document.createElement('div'); field.className='field full';
-    field.innerHTML=`<label><span data-en="Sorting requirement for the other product(s)">「其他產品」分選需求</span></label><input type="text" name="分選需求_其他產品" placeholder="請說明其他產品的分選需求" data-en-ph="Describe the sorting requirement">`;
-    grid.appendChild(field);
-  }
+  // 其他產品：可新增多個（概念同「新增其他品項」）
+  const wrap=document.getElementById('customProductWrap');
+  const useOther=checked.includes('其他');
+  if(wrap) wrap.style.display = useOther ? '' : 'none';
+  if(useOther && document.querySelectorAll('#customProductRows .custom-product').length===0) addCustomProduct();
+  const any = hasStd || useOther;
   // 還原先前選取
   Object.entries(prevRadio).forEach(([n,val])=>{ const el=grid.querySelector(`input[name="${CSS.escape(n)}"][value="${CSS.escape(val)}"]`); if(el) el.checked=true; });
-  Object.entries(prevText).forEach(([n,val])=>{ const el=grid.querySelector(`input[name="${CSS.escape(n)}"]`); if(el&&val) el.value=val; });
+  Object.entries(prevText).forEach(([n,val])=>{ const el=grid.querySelector(`input[name="${CSS.escape(n)}"]`); if(el) el.value=val; });
   const set=(id,show)=>{ const el=document.getElementById(id); if(el) el.style.display=show?'':'none'; };
-  set('sortBlockHead',any); set('sortBlockGrid',any); set('sortBlockDivider',any); set('sortBlockHint',any);
-  set('otherProductInput', checked.includes('其他'));
-  bindStore(grid); refreshChips(); applyLang(LANG);
+  set('sortBlockHead',any); set('sortBlockHint',any); set('sortBlockDivider',any);
+  grid.style.display = hasStd ? '' : 'none';
+  bindStore(grid); refreshChips(); updateSortDetails(); applyLang(LANG);
+}
+
+/* 新增「其他產品」一列（名稱 + 分選等級 + 實際需求 + 下游買方） */
+let customProductIdx=0;
+function addCustomProduct(data){
+  const wrap=document.getElementById('customProductRows'); if(!wrap) return;
+  const i=customProductIdx++;
+  const nm='其他產品'+i+'_分選需求';
+  const chips=buildLevelChips(nm,'','','','');   // 自訂產品不帶固定舉例，由「實際需求」描述
+  const box=document.createElement('div');
+  box.className='custom-product';
+  box.style.cssText='border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;background:var(--soft)';
+  box.innerHTML=
+    `<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">`+
+      `<input type="text" name="其他產品${i}_名稱" placeholder="其他產品名稱（如：保麗龍、電線、輪胎…）" data-en-ph="Other product name" style="flex:1">`+
+      `<button type="button" class="del" style="width:34px;height:34px;flex-shrink:0" onclick="this.closest('.custom-product').remove();save()">✕</button>`+
+    `</div>`+
+    `<div class="opts" data-single data-name="${nm}">${chips}</div>`+
+    `<input type="text" name="其他產品${i}_實際需求" placeholder="請填寫實際分選需求" data-en-ph="Describe your actual requirement" style="display:none;margin-top:8px;width:100%">`+
+    `<input type="text" name="其他產品${i}_下游買方" placeholder="此產品的主要下游買方 / 銷售去向（選填）" data-en-ph="Downstream buyer (optional)" style="margin-top:8px;width:100%">`;
+  wrap.appendChild(box);
+  if(data){ Object.entries(data).forEach(([k,val])=>{ const el=box.querySelector(`[name="${CSS.escape(k)}"]`); if(el){ if(el.type==='radio'){ if(el.value===val) el.checked=true; } else el.value=val; } }); }
+  bindStore(box); refreshChips(); updateSortDetails(); applyLang(LANG);
+}
+
+/* 分選等級選「高 / 中」時，顯示該產品的「實際需求」欄 */
+function updateSortDetails(){
+  document.querySelectorAll('#sortBlockGrid .field.full, #customProductRows .custom-product').forEach(f=>{
+    const checked=f.querySelector('input[type=radio]:checked');
+    const detail=f.querySelector('input[name$="_實際需求"]');
+    if(detail) detail.style.display=(checked && /^(高|中)/.test(checked.value)) ? '' : 'none';
+  });
 }
 
 /* ====== 偏好聯絡方式：依勾選的通訊軟體，逐項顯示帳號填寫欄 ====== */
@@ -874,12 +920,17 @@ function load(){
   const ciKeys=Object.keys(saved.data||{}).filter(k=>k.startsWith('自訂品項'));
   const maxCi=ciKeys.length?ciKeys.reduce((m,k)=>Math.max(m,parseInt(k.match(/自訂品項(\d+)/)[1])),-1):-1;
   for(let i=0;i<=maxCi;i++) addCustomItem();
+  // 重建「其他產品」自訂列
+  const cpKeys=Object.keys(saved.data||{}).filter(k=>k.startsWith('其他產品'));
+  const maxCp=cpKeys.length?cpKeys.reduce((m,k)=>Math.max(m,parseInt(k.match(/其他產品(\d+)/)[1])),-1):-1;
+  for(let i=0;i<=maxCp;i++) addCustomProduct();
   // 第一遍：套用所有靜態欄位（會勾選產出產品 / 通訊軟體等核取方塊）
   applySaved(saved.data);
   // 依勾選狀態產生動態欄位（各產品分選需求、各通訊軟體帳號、其他自填欄）
   updateSortingVisibility(); renderContactAccounts(); updateVideoOther(); updateRadioOthers();
   // 第二遍：套用動態欄位的值（此時欄位已存在）
   applySaved(saved.data);
+  updateSortDetails();   // 還原後依等級顯示「實際需求」欄
   photos=saved.photos||[];
   renderThumbs(); refreshChips(); sumRatio(); updateProgress(); updateSectionStates();
 }
@@ -965,7 +1016,7 @@ function buildSummary(){
     ['【偏好聯絡方式】',['偏好通訊軟體','視訊會議','視訊會議_其他']],
     ['【場地與建物】',['土地面積:坪','建物面積:坪','建蔽率:%','樓層數:層','室內淨高:公尺','柱距:公尺','出入口寬度:公尺','出入口高度:公尺','地坪承載:噸/㎡','土地取得','土地取得_其他','地面狀況','地面狀況_其他','許可現況','許可現況_其他']],
     ['【進料量體】',['日均進料量:噸/日','尖峰進料量:噸/日','工作天數:天/月']],
-    ['【產品與分選】',['產出產品','產出產品_其他','玻璃分色','塑膠分色','純度要求','下游買方']],
+    ['【產品與分選】',['產出產品']],
     ['【水電基礎設施】',['契約容量:kW','用電相數','進線電壓','進線電壓其他','粉塵異味']],
     ['【營運模式】',['班次','現有人力:人','週運作天數:天/週']],
     ['【預算與目標】',['投資預算幣別','投資預算','回收年限','其他補充']],
@@ -993,13 +1044,26 @@ function buildSummary(){
         }
       });
     }
-    // 產品與分選：各產品分選需求（動態欄位）
+    // 產品與分選：各產品分選等級 + 實際需求 + 下游買方（動態欄位）
     if(title==='【產品與分選】'){
+      const fmt=(name,lvl,det,buyer)=>{
+        let s=`  ・${name}`;
+        if(lvl) s+=`${colon}${lvl}`;
+        if(det) s+=`（${en?'detail: ':'實際：'}${det}）`;
+        if(buyer) s+=`${en?' | buyer: ':'｜下游：'}${buyer}`;
+        return s;
+      };
+      // 標準產品（依勾選順序）
+      [...document.querySelectorAll('input[name="產出產品"]:checked')].map(i=>i.value).filter(v=>v!=='其他').forEach(p=>{
+        const lvl=data['分選需求_'+p], det=data['分選需求_'+p+'_實際需求'], buyer=data['下游買方_'+p];
+        if(lvl||det||buyer) L.push(fmt(p,lvl,det,buyer));
+      });
+      // 其他自訂產品
       Object.keys(data).forEach(k=>{
-        if(k.startsWith('分選需求_')&&data[k]){
-          const p=k.replace('分選需求_','');
-          let val=data[k]; if(en) val=trVal(val);
-          L.push(`  ・${(en?'Sorting':'分選')}-${p}${colon}${val}`);
+        const m=k.match(/^其他產品(\d+)_名稱$/);
+        if(m && data[k]){
+          const i=m[1];
+          L.push(fmt(data[k], data['其他產品'+i+'_分選需求'], data['其他產品'+i+'_實際需求'], data['其他產品'+i+'_下游買方']));
         }
       });
     }
